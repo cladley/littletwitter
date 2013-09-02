@@ -25,6 +25,7 @@ $('.hotspot').on('mouseout', function (e) {
 
 
 $('.column').on('mousedown', function (e) {
+    
 
     if (!moving) {
         $element = $(this);
@@ -64,26 +65,26 @@ $('.column').on('mousedown', function (e) {
 
 
 // unselectable="on"   on every element for IE8, ie9
-
+var swap_started = false;
 
 function mousemove(e) {
     moving = true;
 
-    if (isOverHotStop) {
+    if (!swap_started) {
 
-        //var top = Math.abs($hotstop.offset().top - $dummyNode.offset().top);
-        //var left = Math.abs($hotstop.offset().left - $dummyNode.offset().left);
+        if (isOverHotStop) {
+            swap_started = true;
+            performSwap();
+            isOverHotStop = false;
+            swap_started = false;
+        }
 
-        //if (top <= 10 && left <= 10) {
-        performSwap();
-        //}
+        $dummyNode.offset({
+            // top: e.pageY + pos_y - drg_h,
+            left: e.pageX + pos_x - drg_w
+        });
 
     }
-
-    $dummyNode.offset({
-        // top: e.pageY + pos_y - drg_h,
-        left: e.pageX + pos_x - drg_w
-    });
 }
 
 

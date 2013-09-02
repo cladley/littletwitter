@@ -28,11 +28,9 @@ twitter.controls = (function ($, _) {
         },
 
         sort: function (e) {
-          
-            console.log("Before Sort");
-            console.log(this.collection);
-
+            var that = this;
             var r = this.collection.sort(function (t1, t2) {
+              
                 var time1,
                     time2,
                     diff;
@@ -40,25 +38,19 @@ twitter.controls = (function ($, _) {
                 time1 = t1.date.getTime();
                 time2 = t2.date.getTime();
 
-            
-                if (this.asc) {
-                    diff = time1 - time2;
-                   
+                if (that.asc) {
+                    return that.compare(time1, time2);
                 } else {
-                    diff = time2 - time1;
-                   
+                    return that.compare(time2, time1);
                 }
-                console.log(diff);
-                return diff;
             });
+            this.change_icon();
+            this.render_tweets(this.collectionView);
+            e.preventDefault();
+        },
 
-            console.log(r);
-
-            console.log("After Sort");
-            console.log(this.collection);
-
+        change_icon : function(){
             if (this.asc) {
-                // WILL CHANGE THIS
                 $(this.btn_sort).removeClass('asc');
                 $(this.btn_sort).addClass('desc');
                 this.asc = false;
@@ -68,11 +60,16 @@ twitter.controls = (function ($, _) {
                 $(this.btn_sort).addClass('asc');
                 this.asc = true;
             }
-
-            //this.collectionView = new twitter.Views.TweetsCollectionView(this.collection);
-            this.render_tweets(this.collectionView);
-            e.preventDefault();
         },
+
+        compare : function(a , b){
+                if (a < b)
+                    return -1;
+                else if (a > b)
+                    return 1;
+                else return 0;
+        },
+
         // send a request to twitter to fetch fresh results
         refresh: function (e) {
             if (e) e.preventDefault();
@@ -141,7 +138,7 @@ twitter.controls = (function ($, _) {
       
             this.collectionView = new twitter.Views.TweetsCollectionView(this.collection);
             this.render_tweets(this.collectionView);
-
+            window.coll = this.collection;
         },
         // render all our tweets into the placeholder in the document.
         render_tweets : function(colView){
