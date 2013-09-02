@@ -1,0 +1,299 @@
+
+
+
+body{
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	line-height: 1.2;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+     -ms-user-select: none;
+     user-select : none;
+}
+
+header{
+	padding-bottom: 40px;
+	padding-top: 20px;
+
+}
+
+h1{
+	font-size: 1.5em;
+}
+
+.contentWrapper{
+	margin: 0 auto;
+	max-width:1200px;
+}
+
+.column{
+	float:left;
+    position:relative;
+    width:33%;
+}
+
+.tweet_panel{
+	margin: 15px 8px;   
+    min-height : 600px;
+  
+}
+
+.tweet_image_container{
+    background-color:green;
+	padding-right:10px;
+	width:68px;
+}
+
+.tweet_image_container img{
+	float:left;
+	padding-left:6px;
+    padding-right:14px;
+}
+
+.tweet_info_container{
+	padding-right: 10px;
+}
+
+
+
+.tweet_info_container header{
+	padding: 0px;
+}
+
+.tweet_info_container .posted{
+    color:#AAACAF;
+	float:right;
+    font-size:.8em;
+}
+
+.tweet_info_container .name{
+    color: #ECECEC;
+}
+
+.tweet_info_container .screen_name{
+	color: #B7D1F6;
+    display: inline-block;
+	font-size: .75em;
+    left: 9px;
+    position: relative;
+    top: -2px;
+}
+
+.tweet_info_container section{
+    font-size:0.9em;
+}
+
+.tweet_info_container p{
+    color:#3bdbae;
+    font-size: .7em; 
+}
+
+.tweet{
+    background-color:blue;
+}
+
+.retweet{
+    background-color:lightblue;
+}
+
+.toolbar{
+	float:right;
+}
+
+
+
+#settings_overlay{
+    background-color: black;
+    bottom : 0;
+    display: none;
+    left: 0;
+    opacity : 0.6;
+    position : fixed;
+    right : 0;
+    top: 0;
+    z-index: 1000;
+}
+
+
+
+#settings_panel{
+    left : -5000px;
+    min-height : 300px;
+    position : fixed;
+    top : 20%;
+    width : 30%;
+    z-index: 2000;
+}
+
+
+
+#settings_panel header{
+   
+    font-weight:700;
+    font-size:1.2em;
+    padding:14px;
+}
+
+
+#settings_panel .settings_container{
+   
+    height:40px;
+    width:100%;
+    
+}
+
+#settings_panel form{
+ 
+    margin:auto;
+    padding-top: 24px;
+    width:86%;
+
+}
+
+
+#settings_panel .form_section header{
+    font-weight:300;
+    padding:4px;
+}
+
+
+.tweet_panel_header{
+    
+    padding:18px;
+    padding-top:16px;
+}
+
+.tweet_panel_header .title{
+    font-size : 1.1em;
+}
+
+.btn_refresh{
+    display:inline-block;
+    background: url(../img/reload_24x28.png) no-repeat;
+    width:24px;
+    height:28px;
+    
+
+}
+
+/*.btn_refresh:hover{
+    background: url(../img/reload_24x28black.png) no-repeat;
+}*/
+
+.btn_sort{
+    padding-right:6px;
+    width:24px;
+    height:24px;
+    display:inline-block;
+}
+
+
+.btn_sort.asc{
+   background: url(../img/arrow_down_24x24.png) no-repeat;
+}
+
+.btn_sort.desc{
+     background: url(../img/arrow_up_24x24.png) no-repeat;
+}
+
+
+.tweets_list li{
+    padding:10px;
+}
+
+.tweets_list header{
+    padding-bottom:4px;
+}
+
+.hotspot{
+    width:40%;
+    height:100%;
+    position:absolute;
+    left : 30%;   
+    z-index:500;
+    opacity:0;
+}
+
+/* Theme Colours */
+
+
+
+#dark .tweet_panel_header{
+   background-color: #FF5A14;
+   color:white;
+}
+
+#dark .tweet_image_container{
+    color:white;
+}
+
+#dark .tweets_list li{
+     background-color: #333333;
+}
+
+#dark .tweet_info_container section{
+    color:white;
+}
+
+#light.tweet_info_container section{
+    color:darkgray;
+}
+
+#light #settings_panel{
+     background-color: white;
+}
+
+
+#light #settings_panel header{
+     background-color: #333333;
+     color:white;
+}
+
+#light #settings_panel .form_section header{
+    
+}
+
+#dark #settings_panel{
+    background-color:#333333;
+    color:white;
+}
+
+#dark #settings_panel header{
+     background-color: #FF5A14;
+     color:white;
+}
+
+#dark #settings_panel .form_section header{
+
+}
+
+footer{
+	clear:both;
+}
+
+@media (min-width: 481px) and (max-width:768px){
+
+	.column.col_1, .column.col_2{
+		width: 50%;
+	}
+
+	.column.col_3{
+		width:100%;
+	}
+
+    #settings_panel{
+        width:50%;
+        left:25%;
+    }
+
+}
+
+@media (max-width: 480px){
+	.column{
+		width:100%;
+	}
+
+    #settings_panel{
+        width:50%;
+        left:25%;
+    }
+}

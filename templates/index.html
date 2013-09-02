@@ -1,0 +1,167 @@
+<html>
+<head>
+	<title>App Direct</title>
+	<link rel="stylesheet" type="text/css"  href="static/style/reset.css">
+	<link rel="stylesheet" type="text/css"  href="static/style/main.css">
+	
+	<style type="text/css">
+	
+        #settings{
+            position : absolute;
+            left : 30px;
+            top : 10px;   
+        }
+
+	</style>
+</head>
+<body id="light">
+    <button id="btn_settings">Settings</button>
+	<div class="pageWrapper">
+		
+
+		<div class="contentWrapper">
+			<header>
+				<h1>A Little Twitter Page</h1>
+			</header>
+
+			<div class="column col_1 " >
+                 <div class="hotspot">
+                        hotspot
+                    </div>
+				<div class="tweet_panel" id="panel_1">
+					<div class="tweet_panel_header">
+						<span class="title">
+							
+						</span>
+						<span class="toolbar">
+                            
+                            <a href="" class="btn_sort asc">
+          
+                            </a>
+                       
+                            <a href="" class="btn_refresh">
+                                
+                            </a>
+                          
+                        </span>
+					</div>
+                    <div class="tweets_container"></div>
+				</div>
+			</div>
+
+			<div class="column col_2 ">
+                 <div class="hotspot">
+                        hotspot
+                    </div>
+				<div class="tweet_panel" id="panel_2">
+					<div class="tweet_panel_header">
+						<span class="title">
+							
+						</span>
+						<span class="toolbar">
+                             <a href="" class="btn_sort asc">
+                            </a>
+                       
+                            <a href="" class="btn_refresh">
+                           
+                            </a>
+
+                           
+                        </span>
+					</div>
+                    <div class="tweets_container"></div>
+				</div>
+			</div>
+
+			<div class="column col_3 ">
+                 <div class="hotspot">
+                        hotspot
+                    </div>
+				<div class="tweet_panel" id="panel_3">
+					<div class="tweet_panel_header">
+						<span class="title">
+						
+						</span>
+						<span class="toolbar">
+                            <a href="" class="btn_sort asc">
+                               
+                            </a>
+                       
+                            <a href="" class="btn_refresh">
+                          
+                            </a>
+                        </span>
+					</div>
+                    <div class="tweets_container"></div>
+				</div>
+			</div>
+
+		</div>
+		
+	</div>
+
+    <div id="settings_overlay"></div>
+    <div id="settings_panel">
+        
+        <header>
+            <h2>Settings</h2>
+        </header>
+        <div class="settings_container">
+            <form >
+                <div id="theme_section" class="form_section">
+                        <header>
+                            <h3>Theme</h3>
+                        </header>
+                        <p>
+                            <input type="radio" id="radlight" name="theme" value="light" checked="checked" /> <label for="radlight">light</label>
+                            <input type="radio" id="raddark" name="theme" value="dark" /> <label for="raddark">dark</label>
+                          
+                        </p>
+
+                </div>
+                <br/>
+                <div id="twitter_section" class="form_section">
+                    <header>
+                        <h3>Twitter</h3>
+                    </header>
+                    <p>Panel 1 : <input type="text" name="panel1" /> <button class="btnSetUsername">set</button></p>
+                    <p>Panel 2 : <input type="text" name="panel2" /></p>
+                    <p>Panel 3 : <input type="text" name="panel3" /></p>
+                </div>
+
+            </form>
+
+
+        </div>
+        
+    
+    </div>
+    
+    <script id="tweet-template" type="text/template">
+        <div class="tweet_image_container green">
+            <img src="<%= profile_img %>" alt="profile image" width="48" height="48"/></div>
+            <div class="tweet_info_container">
+                <header>
+                    <span class="name"><%= name %></span>
+                    <span class="screen_name">@<%= screen_name %></span>
+                    <span class="posted"><%= posted %></span>
+                </header>
+                <section><%= text %></section>
+                <p>Mentions - <%= mentions %></p>
+            </div>
+        </div>
+    </script> 
+
+	<script type="text/javascript" src="static/js/jquery.js"></script>
+    <script type="text/javascript" src="static/js/underscore-min.js"></script>
+    <script type="text/javascript" src="static/js/controller.js"></script>
+    <script type="text/javascript" src="static/js/tweetserver.js"></script>
+    <script type="text/javascript" src="static/js/models.js"></script>
+    <script type="text/javascript" src="static/js/views.js"></script>
+	<script type="text/javascript" src="static/js/main.js"></script>
+    <!--<script type="text/javascript" src="static/js/dragging.js"></script>-->
+
+
+  
+</body>
+</html>
