@@ -86,6 +86,8 @@ twitter.controls = (function ($, _) {
         create_busy_element: function () {
             this.busy_indicator = document.createElement("img");
             this.busy_indicator.src = "static/img/50x50.gif";
+            this.busy_indicator.style.marginTop = "40%";
+            this.busy_indicator.style.marginLeft = "39%";
         },
         // start the 'busy' animation
         start_loading: function () {
@@ -104,10 +106,17 @@ twitter.controls = (function ($, _) {
             $(this.btn_refresh).on('click', _.bind(this.refresh, this));
         },
 
+        build_tweet_url : function(name,id){
+            //https://twitter.com/AppDirect/status/373382746288443392
+            return 'https://twitter.com/' + name + '/status/' + id;
+        },
+
+
        
         // parse the returned data from twitter call
         extract_data: function (data) {
             this.collection = [];
+           // console.log(data);
             for (var i = 0, len = data.length; i < len; i++) {
                 var obj = data[i];
                 var user = (obj.retweeted_status) ? obj.retweeted_status.user : obj.user;
@@ -117,6 +126,7 @@ twitter.controls = (function ($, _) {
                     screen_name: user.screen_name,
                     profile_img: user.profile_image_url,
                     created_at: obj.created_at,
+                    id : obj.id_str,
                     text: obj.text,
                     status: obj.retweeted_status
                 };
@@ -130,11 +140,14 @@ twitter.controls = (function ($, _) {
                     args.mentions = str;
                 } 
 
+                var url = this.build_tweet_url(args.screen_name, args.id);
+              
+                args.tweet_url = url;
 
                 var tweet = new twitter.Models.Tweet(args);
                 this.collection.push(tweet);
             }
-      
+            console.log(this.collection);
             this.collectionView = new twitter.Views.TweetsCollectionView(this.collection);
             this.render_tweets(this.collectionView);
             window.coll = this.collection;

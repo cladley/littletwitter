@@ -7,6 +7,8 @@ window.twitter.Models = (function ($,_) {
         this.text = args.text || '';
         this.name = args.name || '';
         this.screen_name = args.screen_name || '';
+        this.id = args.id;
+        this.tweet_url = args.tweet_url;
         this.date_string = args.created_at;
         this.date = twitter.utils.create_date(args.created_at);
         this.posted = this.date.getDate() + " " + twitter.utils.get_month_str(this.date.getMonth());
@@ -15,6 +17,7 @@ window.twitter.Models = (function ($,_) {
         this.status = args.status || 'tweet';
         this.link = args.link || '';
     }
+    
 
     return {
         Tweet: Tweet,

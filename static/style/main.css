@@ -37,6 +37,25 @@ h1{
   
 }
 
+#btn_settings{
+    text-decoration:none;
+    color:#AAACAF;
+    margin-left:10px;
+    padding-left:22px;
+    background: url(../img/cog_16x16.png) 2px no-repeat;
+    position:relative;
+    top:-2px;
+}
+
+#btn_settings:hover{
+    color:black;
+}
+
+
+#page_title{
+    display:inline-block;
+}
+
 .tweet_image_container{
     background-color:green;
 	padding-right:10px;
@@ -85,6 +104,11 @@ h1{
 .tweet_info_container p{
     color:#3bdbae;
     font-size: .7em; 
+}
+
+.tweet_info_container .show_link{
+    float:right;
+    color:white;
 }
 
 .tweet{

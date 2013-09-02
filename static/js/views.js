@@ -27,7 +27,7 @@ window.twitter.Views = (function ($, _) {
 
     // Simple view for a collection of tweets
     function TweetsCollectionView(collection, el) {
-        // el is the type of element will we use  to render our tweets in 
+        // el is the type of element we will use  to render our tweets in 
         this.el = el || 'ul',
         this.classes = 'tweets_list',
         this.collection = collection;
@@ -56,6 +56,11 @@ window.twitter.Views = (function ($, _) {
         this.$panel = $(panel);
         this.theme_section = document.getElementById('theme_section');
         this.twitter_section = document.getElementById('twitter_section');
+
+        this.checkboxes = this.theme_section.getElementsByTagName('input');
+
+        this.textboxes = this.twitter_section.getElementsByTagName('input');
+
         this.setup_bindings();
         this.settings = {};
 
@@ -63,11 +68,13 @@ window.twitter.Views = (function ($, _) {
 
     SettingsView.prototype = {
         constructor: SettingsView,
-        open: function () {
+        open: function (e) {
+
             this.$overlay.fadeIn(500);
             this.$panel.stop().animate({
                 'left' : '35%'
             });
+            e.preventDefault();
         },
 
         close: function () {
@@ -118,31 +125,26 @@ window.twitter.Views = (function ($, _) {
                 this.settings = this.default_settings;
             }
 
+            this.setup_controls_state(this.settings);
+            $(this).trigger('settingsChange', this.settings);
 
-            // TESTING
-            // loop through checboxes and which ever one is the same theme as this
-            // then set it to checked
-            // find traverse down all decendents, children only one level
-           
+        },
 
-            var checkboxes = this.theme_section.getElementsByTagName('input');
-   
-            for (var i = 0; i < checkboxes.length; i++) {
-                if (checkboxes[i].value === this.settings.theme) {
-                    checkboxes[i].checked = true;
+        setup_controls_state : function(settings){
+
+            for (var i = 0; i < this.checkboxes.length; i++) {
+                if (this.checkboxes[i].value === this.settings.theme) {
+                    this.checkboxes[i].checked = true;
                     break;
                 }
             }
 
-         
-            var textboxes = this.twitter_section.getElementsByTagName('input');
-            for (var i = 0; i < textboxes.length; i++) {
-                textboxes[i].value = this.settings.panels[i];
+            for (var i = 0; i < this.textboxes.length; i++) {
+                this.textboxes[i].value = this.settings.panels[i];
             }
 
-            $(this).trigger('settingsChange', this.settings);
-
         },
+
         save: function () {
             localStorage.setItem('settings', JSON.stringify(this.settings));
         },

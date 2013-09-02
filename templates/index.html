@@ -13,16 +13,20 @@
             top : 10px;   
         }
 
+
+
 	</style>
 </head>
 <body id="light">
-    <button id="btn_settings">Settings</button>
+   
 	<div class="pageWrapper">
 		
 
 		<div class="contentWrapper">
 			<header>
-				<h1>A Little Twitter Page</h1>
+				<h1 id="page_title">A Little Twitter Page</h1>
+             
+                 <a href="" id="btn_settings">settings</a>
 			</header>
 
 			<div class="column col_1 " >
@@ -146,6 +150,7 @@
                     <span class="posted"><%= posted %></span>
                 </header>
                 <section><%= text %></section>
+                <p><a class="show_link" href="<%= tweet_url %>" >show</a></p>
                 <p>Mentions - <%= mentions %></p>
             </div>
         </div>
