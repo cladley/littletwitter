@@ -26,39 +26,44 @@ $('.hotspot').on('mouseout', function (e) {
 
 $('.column').on('mousedown', function (e) {
     
+    window.colin = e.target;
+    if (e.target.nodeName !== 'A') {
 
-    if (!moving) {
-        $element = $(this);
+  
+        if (!moving) {
+            $element = $(this);
 
-        drg_h = $element.outerHeight();
-        drg_w = $element.outerWidth();
-        pos_y = $element.offset().top + drg_h - e.pageY;
-        pos_x = $element.offset().left + drg_w - e.pageX;
-
-
-        // clone the element
-        dummyNode = this.cloneNode(true);
-        $dummyNode = $(dummyNode);
-
-        this.style.opacity = 0;
-        var startTop = $element.offset().top;
-        var startLeft = $element.offset().left;
+            drg_h = $element.outerHeight();
+            drg_w = $element.outerWidth();
+            pos_y = $element.offset().top + drg_h - e.pageY;
+            pos_x = $element.offset().left + drg_w - e.pageX;
 
 
-        $dummyNode.home = {};
-        $dummyNode.home.top = startTop;
-        $dummyNode.home.left = startLeft;
+            // clone the element
+            dummyNode = this.cloneNode(true);
+            $dummyNode = $(dummyNode);
 
-        $dummyNode.css({
-            position: 'absolute',
-            top: startTop + 'px',
-            left: startLeft + 'px',
-            width: drg_w + "px",
-            opacity: '0.6'
-        });
+            this.style.opacity = 0;
+            var startTop = $element.offset().top;
+            var startLeft = $element.offset().left;
 
-        document.body.appendChild(dummyNode);
-        $(document.body).on('mousemove', mousemove);
+
+            $dummyNode.home = {};
+            $dummyNode.home.top = startTop;
+            $dummyNode.home.left = startLeft;
+
+            $dummyNode.css({
+                position: 'absolute',
+                top: startTop + 'px',
+                left: startLeft + 'px',
+                width: drg_w + "px",
+                opacity: '0.6'
+            });
+
+            document.body.appendChild(dummyNode);
+            $(document.body).on('mousemove', mousemove);
+
+        }
 
     }
 });

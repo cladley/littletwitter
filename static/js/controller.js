@@ -75,12 +75,11 @@ twitter.controls = (function ($, _) {
             if (e) e.preventDefault();
 
             this.start_loading();
-
             var promise = twitter.server.get(this.username);
 
             promise.done(_.bind(this.end_loading, this));
             promise.done(_.bind(this.extract_data, this));
-            promise.error(this.onerror);
+            promise.error(_.bind(this.onerror, this));
        
         },
         // loading animation for when we are waiting for twitter to return
@@ -147,8 +146,23 @@ twitter.controls = (function ($, _) {
             this.tweets_container.appendChild(colView.element);
 
         },
-        onerror: function (reason) {
+        insert_error_message: function () {
+            var error = document.createElement('h3');
+            error.className = 'error_message';
+            error.textContent = "Unable to retrieve timeline for '" + this.username + "'";
+            this.tweets_container.appendChild(error);
 
+        },
+        onerror: function (reason) {
+            if (reason.status === 404) {
+                this.end_loading();
+                this.insert_error_message();
+            }
+
+            if (reason.status === 500) {
+                this.end_loading();
+
+            }
         }
     };
 

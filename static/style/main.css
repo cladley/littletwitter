@@ -99,7 +99,12 @@ h1{
 	float:right;
 }
 
-
+.error_message{
+    text-align : center;
+    font-size:1.2em;
+    padding-top:50px;
+    color:gray;
+}
 
 #settings_overlay{
     background-color: black;
