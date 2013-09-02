@@ -12,7 +12,7 @@ twitter.server = (function ($, _) {
     
             count = count || default_count;
 
-            var url = base_url + "?name=" + username;
+            var url = base_url + "?name=" + username + "&count=" + count;
             return $.ajax({
                 dataType: "json",
                 url : url

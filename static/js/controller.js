@@ -2,15 +2,16 @@
 window.twitter = window.twitter || {};
 
 twitter.controls = (function ($, _) {
-
+    var twitter_url = "https://twitter.com/"
     // Each Panel is a TwitterControl. 
     // We pass in a html element representing the control
     // and a username , which is the twitter timeline we 
     // be viewing
-    function TwitterControl(element, username) {
+    function TwitterControl(element, username, tweet_count) {
         this.$element = $(element);
         this.username = username;
         this.tweets_container = this.$element.find('.tweets_container')[0];
+        this.tweet_count = tweet_count || 30;
         this.collection = [];
         this.loading = false;
         this.create_busy_element();
@@ -27,6 +28,7 @@ twitter.controls = (function ($, _) {
             titlespan.innerHTML = name;
         },
 
+        // sort the tweets by their time in seconds
         sort: function (e) {
             var that = this;
             var r = this.collection.sort(function (t1, t2) {
@@ -75,7 +77,7 @@ twitter.controls = (function ($, _) {
             if (e) e.preventDefault();
 
             this.start_loading();
-            var promise = twitter.server.get(this.username);
+            var promise = twitter.server.get(this.username, this.tweet_count);
 
             promise.done(_.bind(this.end_loading, this));
             promise.done(_.bind(this.extract_data, this));
@@ -107,16 +109,16 @@ twitter.controls = (function ($, _) {
         },
 
         build_tweet_url : function(name,id){
-            //https://twitter.com/AppDirect/status/373382746288443392
-            return 'https://twitter.com/' + name + '/status/' + id;
+            return twitter_url + name + '/status/' + id;
         },
 
 
        
-        // parse the returned data from twitter call
+        // parse the returned data from twitter, create a new Tweet object
+        // and add it to our collection. Display these at the end.
         extract_data: function (data) {
             this.collection = [];
-           // console.log(data);
+
             for (var i = 0, len = data.length; i < len; i++) {
                 var obj = data[i];
                 var user = (obj.retweeted_status) ? obj.retweeted_status.user : obj.user;
@@ -135,22 +137,21 @@ twitter.controls = (function ($, _) {
                     var mentions = obj.entities.user_mentions;
                     var str = '';
                     for (var j = 0; j < mentions.length; j++) {
-                        str = str + ', ' + mentions[j].screen_name;
+                        str = mentions[j].screen_name + ", " + str;
                     }
                     args.mentions = str;
-                } 
+                }
 
                 var url = this.build_tweet_url(args.screen_name, args.id);
-              
                 args.tweet_url = url;
 
                 var tweet = new twitter.Models.Tweet(args);
                 this.collection.push(tweet);
             }
-            console.log(this.collection);
+
             this.collectionView = new twitter.Views.TweetsCollectionView(this.collection);
             this.render_tweets(this.collectionView);
-            window.coll = this.collection;
+ 
         },
         // render all our tweets into the placeholder in the document.
         render_tweets : function(colView){
@@ -164,8 +165,8 @@ twitter.controls = (function ($, _) {
             error.className = 'error_message';
             error.textContent = "Unable to retrieve timeline for '" + this.username + "'";
             this.tweets_container.appendChild(error);
-
         },
+        // handles any network related errors
         onerror: function (reason) {
             if (reason.status === 404) {
                 this.end_loading();
@@ -174,7 +175,6 @@ twitter.controls = (function ($, _) {
 
             if (reason.status === 500) {
                 this.end_loading();
-
             }
         }
     };
@@ -184,6 +184,10 @@ twitter.controls = (function ($, _) {
     };
 
 })(jQuery, _ );
+
+
+
+
 
 
 twitter.coordinators = (function ($, _) {
@@ -199,10 +203,11 @@ twitter.coordinators = (function ($, _) {
         setup: function (args) {
             if (args) {
                 var elm = document.getElementById(args.id);
-                var control = new twitter.controls.TwitterControl(elm, args.username);
+                var control = new twitter.controls.TwitterControl(elm, args.username, args.tweet_count);
                 this.controls.push(control);
             }
         },
+        // make new request out to twitter
         refresh_all: function () {
             for (var i = 0; i < this.controls.length; i++) {
                 this.controls[i].refresh();
@@ -210,18 +215,23 @@ twitter.coordinators = (function ($, _) {
         },
         // change the timeline to a new username and send request to twitter 
         // to get the new timeline data.
-        set_username: function (e,setting) {
+        set_setting: function (e,setting) {
     
             if (setting.type === "timeline_change") {
 
                 var timeline = setting.value[0];
-              
                 var index = setting.value[1];
                 var ctrl = this.controls[index];
 
                 ctrl.username = timeline;
                 ctrl.set_title(timeline);
                 ctrl.refresh();
+            }
+
+            if (setting.type === "count_change") {
+                for (var i = 0; i < this.controls.length; i++) {
+                    this.controls[i].tweet_count = setting.value[0];
+                }
             }
         }
     }

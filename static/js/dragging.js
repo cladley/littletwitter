@@ -1,5 +1,14 @@
 
 
+// To move a div, we first create a copy of the div that is going to be moved.
+// Next we set the div's ( not the copy ) opacity to 0. This keeps the layout
+// intact. We then position the copy at this position. Its the copy that is 
+// actually being dragged around. 
+// We have a hidden div sitting on top of each column, and we use these to 
+// sense when we are over a div when we are dragging one. The hidden div has an
+// z-index greater than the dragged div so we detect when the mouse goes over it
+// as it is dragging it.
+
 
 (function ($, _) {
     
@@ -15,10 +24,9 @@
         pos_y,
         pos_x;
 
-
     // .hotspot are divs that sit on top of the panel and have an opacity
-    // of 0. So when the user is dragging a panel, we can detect which panel
-    // its is being dragged over and then swap those panels
+    //  of 0. So when the user is dragging a panel, we can detect which panel
+    //  its is being dragged over and then swap those panels
     $('.hotspot').on('mouseover', function (e) {
         isOverHotSpot = true;
         $hotspot= $(this);
@@ -28,7 +36,7 @@
         isOverHotSpot = false;
     });
 
-
+    
     $('.column').on('mousedown', function (e) {
         // We check first that we are not clicking a link of the page
         if (e.target.nodeName !== 'A') {
@@ -67,8 +75,6 @@
         }
     });
 
-   
-
     function mousemove(e) {
         moving = true;
 
@@ -84,7 +90,6 @@
             $dummyNode.offset({
                 left: e.pageX + pos_x - drg_w
             });
-
         }
     }
 
@@ -109,6 +114,7 @@
             animate_home($dummyNode);
         }
     });
+
 
     function performSwap() {
         var parent = $hotspot.parent();

@@ -164,8 +164,7 @@ h1{
 
 
 #settings_panel .settings_container{
-   
-    height:40px;
+   padding-bottom:20px;
     width:100%;
     
 }
@@ -178,6 +177,21 @@ h1{
 
 }
 
+
+.sub_form_heading{
+    font-size:.85em;
+    color : gray;
+    margin:5px 0px 2px 10px;
+}
+
+.timeline_input{
+    width:70%;
+}
+
+.spacer{
+    margin:5px;
+    margin-left:10px;
+}
 
 #settings_panel .form_section header{
     font-weight:300;
@@ -317,5 +331,7 @@ footer{
 	.column{
 		width:100%;
 	}
+
+  
 
 }

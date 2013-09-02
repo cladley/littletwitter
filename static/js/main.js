@@ -3,6 +3,7 @@
 (function ($, _) {
 
     var timelines = [];
+
     var administrator = {
 
         set_theme: function (e, data) {
@@ -12,9 +13,9 @@
         },
         // get the timeline username from the defaults or localStorage
         // the settingsControl determines which to select .
-      
         set_initial_settings: function (e, data) {
             document.body.id = data.theme;
+            tweet_count = data.tweet_count;
             for (var i = 0; i < data.panels.length; i++) {
                 timelines.push(data.panels[i]);
             }
@@ -22,24 +23,24 @@
 
     };
 
+    var tweet_count;
+    // Create the view object for the settings panel
     var btn = document.getElementById('btn_settings');
     var settings_panel = document.getElementById('settings_panel');
     var settings_overlay = document.getElementById('settings_overlay');
     var settingsControl = new twitter.Views.SettingsView(btn, settings_overlay, settings_panel);
 
-
- 
     $(settingsControl).on('settingChange', administrator.set_theme);
     $(settingsControl).on('settingsChange', administrator.set_initial_settings);
     settingsControl.fetch_settings();
 
 
     var twitterCoordinator = new twitter.coordinators.TwitterCoordinator();
-    $(settingsControl).on('settingChange', _.bind(twitterCoordinator.set_username, twitterCoordinator));
+    $(settingsControl).on('settingChange', _.bind(twitterCoordinator.set_setting, twitterCoordinator));
     // creates 3 TwitterControl objects with dom element id and twitter timeline name
-    twitterCoordinator.setup({ id: 'panel_1', username: timelines[0] });
-    twitterCoordinator.setup({ id: 'panel_2', username: timelines[1] });
-    twitterCoordinator.setup({ id: 'panel_3', username: timelines[2] });
+    twitterCoordinator.setup({ id: 'panel_1', username: timelines[0], tweet_count : tweet_count });
+    twitterCoordinator.setup({ id: 'panel_2', username: timelines[1], tweet_count : tweet_count });
+    twitterCoordinator.setup({ id: 'panel_3', username: timelines[2], tweet_count : tweet_count });
     twitterCoordinator.refresh_all();
 
 })(jQuery, _);

@@ -56,13 +56,11 @@ window.twitter.Views = (function ($, _) {
         this.$panel = $(panel);
         this.theme_section = document.getElementById('theme_section');
         this.twitter_section = document.getElementById('twitter_section');
-
         this.checkboxes = this.theme_section.getElementsByTagName('input');
-
         this.textboxes = this.twitter_section.getElementsByTagName('input');
-
-        this.setup_bindings();
         this.settings = {};
+        this.setup_bindings();
+        
 
     }
 
@@ -90,33 +88,48 @@ window.twitter.Views = (function ($, _) {
             this.$btn.on('click', _.bind(this.open, this));
             this.$overlay.on('click', _.bind(this.close, this));
             $('#theme_section').on('change', _.bind(this.theme_change, this));
-            $('#twitter_section').on('blur', 'input', _.bind(this.timeline_change, this));
-            $('#twitter_section').on('focus', 'input', _.bind(this.timeline_enter, this));
- 
+            $('#timeline').on('blur', 'input', _.bind(this.timeline_change, this));
+            $('#timeline').on('focus', 'input', _.bind(this.timeline_enter, this));
+            $('#num_of_tweets').on('focus', _.bind(this.num_of_tweets_enter, this));
+            $('#num_of_tweets').on('blur', _.bind(this.num_of_tweets_change, this));  
         },
 
         default_settings : {
             theme: 'dark',
-            panels : ['appdirect', 'hackernews', 'laughingsquid']
+            panels: ['appdirect', 'hackernews', 'laughingsquid'],
+            tweet_count : 30
         },
 
-        timeline_enter : function(e){
+
+        num_of_tweets_enter : function(e){
+            this.old_count = e.target.value;
+        },
+        num_of_tweets_change : function(e){
+            var current_count = e.target.value;
+            if (current_count !== this.old_count) {
+                this.settings.tweet_count = current_count;
+                this.setting_change('count_change', current_count);
+            }
+        },
+
+        timeline_enter: function (e) {
+          
             this.old_text = e.target.value;
         },
 
         timeline_change: function (e) {
-            
+            // we remember what the old value was and compare it to the 
+            // new one. If it hasn't changed, then no need to send another request
             var current_text = e.target.value;
             if (current_text !== this.old_text) {
                 var index = e.target.dataset.index;
                 this.settings.panels[index] = current_text;
-             
                 this.setting_change('timeline_change', current_text, index);
             }
             this.old_text = '';
         },
 
-
+        // try to get settings from local storage or else use the defaults
         fetch_settings: function () {
             var that = this;
             this.settings = JSON.parse(localStorage.getItem('settings'));
@@ -125,11 +138,12 @@ window.twitter.Views = (function ($, _) {
                 this.settings = this.default_settings;
             }
 
-            this.setup_controls_state(this.settings);
+            this.setup_controls_state(this.settings)
             $(this).trigger('settingsChange', this.settings);
-
         },
 
+        // We set the controls on the settings form so that they match
+        // our settings object.
         setup_controls_state : function(settings){
 
             for (var i = 0; i < this.checkboxes.length; i++) {
@@ -139,10 +153,20 @@ window.twitter.Views = (function ($, _) {
                 }
             }
 
+            // for testing only
+            var texts = $('.timeline_input');
+       
+
             for (var i = 0; i < this.textboxes.length; i++) {
                 this.textboxes[i].value = this.settings.panels[i];
             }
+            //for (var i = 0; i < texts.length; i++) {
+            //    texts[i].value = this.settings.panels[i];
 
+            //}
+            //debugger;
+
+            $('#num_of_tweets').val(this.settings.tweet_count);
         },
 
         save: function () {
