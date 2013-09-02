@@ -84,6 +84,7 @@ window.twitter.Views = (function ($, _) {
 
             this.$overlay.fadeOut(700); 
         },
+        // setup all event handlers
         setup_bindings: function () {
             this.$btn.on('click', _.bind(this.open, this));
             this.$overlay.on('click', _.bind(this.close, this));
@@ -153,19 +154,10 @@ window.twitter.Views = (function ($, _) {
                 }
             }
 
-            // for testing only
-            var texts = $('.timeline_input');
-       
-
             for (var i = 0; i < this.textboxes.length; i++) {
                 this.textboxes[i].value = this.settings.panels[i];
             }
-            //for (var i = 0; i < texts.length; i++) {
-            //    texts[i].value = this.settings.panels[i];
-
-            //}
-            //debugger;
-
+     
             $('#num_of_tweets').val(this.settings.tweet_count);
         },
 
@@ -188,7 +180,6 @@ window.twitter.Views = (function ($, _) {
         }
 
     };
-
 
     return {
         TweetView: TweetView,

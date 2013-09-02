@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html>
+
 <head>
 	<title>App Direct</title>
 	<link rel="stylesheet" type="text/css"  href="static/style/reset.css">
 	<link rel="stylesheet" type="text/css"  href="static/style/main.css">
-	
+
 </head>
 <body id="light">
-   
+
 	<div class="pageWrapper">
 		
 		<div class="contentWrapper">
@@ -148,12 +148,17 @@
                 </header>
                 <section><%= text %></section>
                 <p><a class="show_link" href="<%= tweet_url %>" >show</a></p>
-                <p>Mentions - <%= mentions %></p>
+                <% if (mentions != "") { %>
+                    <p>Mentions - <%= mentions %></p>
+                <% }else { %>
+                    <p>No Mentions</p>
+                <% } %>
             </div>
         </div>
     </script> 
 
-	<script type="text/javascript" src="static/js/jquery.js"></script>
+	
+    <script type="text/javascript" src="static/js/jquery-1.8.3.js"></script>
     <script type="text/javascript" src="static/js/underscore-min.js"></script>
     <script type="text/javascript" src="static/js/controller.js"></script>
     <script type="text/javascript" src="static/js/tweetserver.js"></script>

@@ -38,6 +38,7 @@ twitter.controls = (function ($, _) {
                     diff;
 
                 time1 = t1.date.getTime();
+                console.log(time1);
                 time2 = t2.date.getTime();
 
                 if (that.asc) {
