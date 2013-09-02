@@ -108,7 +108,7 @@ twitter.controls = (function ($, _) {
        
         // parse the returned data from twitter call
         extract_data: function (data) {
-
+            this.collection = [];
             for (var i = 0, len = data.length; i < len; i++) {
                 var obj = data[i];
                 var user = (obj.retweeted_status) ? obj.retweeted_status.user : obj.user;
@@ -183,10 +183,18 @@ twitter.coordinators = (function ($, _) {
         },
         // change the timeline to a new username and send request to twitter 
         // to get the new timeline data.
-        set_username: function (setting) {
-            console.log("I'm in set_username anyway");
-            if (setting.type === "name_change") {
-                console.log("Yes its a name change");
+        set_username: function (e,setting) {
+    
+            if (setting.type === "timeline_change") {
+
+                var timeline = setting.value[0];
+              
+                var index = setting.value[1];
+                var ctrl = this.controls[index];
+
+                ctrl.username = timeline;
+                ctrl.set_title(timeline);
+                ctrl.refresh();
             }
         }
     }

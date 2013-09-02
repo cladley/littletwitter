@@ -82,14 +82,33 @@ window.twitter.Views = (function ($, _) {
         setup_bindings: function () {
             this.$btn.on('click', _.bind(this.open, this));
             this.$overlay.on('click', _.bind(this.close, this));
-            this.$panel.on('change', _.bind(this.theme_change, this));
-           // this.$panel.on('click', _.bind(this.set, this));
+            $('#theme_section').on('change', _.bind(this.theme_change, this));
+            $('#twitter_section').on('blur', 'input', _.bind(this.timeline_change, this));
+            $('#twitter_section').on('focus', 'input', _.bind(this.timeline_enter, this));
+ 
         },
 
         default_settings : {
             theme: 'dark',
             panels : ['appdirect', 'hackernews', 'laughingsquid']
         },
+
+        timeline_enter : function(e){
+            this.old_text = e.target.value;
+        },
+
+        timeline_change: function (e) {
+            
+            var current_text = e.target.value;
+            if (current_text !== this.old_text) {
+                var index = e.target.dataset.index;
+                this.settings.panels[index] = current_text;
+             
+                this.setting_change('timeline_change', current_text, index);
+            }
+            this.old_text = '';
+        },
+
 
         fetch_settings: function () {
             var that = this;
@@ -134,11 +153,12 @@ window.twitter.Views = (function ($, _) {
         // Changes the colour scheme of the application
         theme_change: function (e) {
             var theme = e.target.value;
+            this.settings.theme = theme;
             this.setting_change('theme', theme);
         },
-        setting_change: function (type, value) {
-            this.settings[type] = value;
-            $(this).trigger('settingChange', { type: type, value: value });
+        setting_change: function (type) {
+            var args = Array.prototype.slice.call(arguments, 1);
+            $(this).trigger('settingChange', { type: type, value: args });
         }
 
     };
